@@ -23,6 +23,7 @@ class CreateSessionService {
     if (!user) {
       throw new Error('Incorret email/password combination.');
     }
+
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {

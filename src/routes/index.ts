@@ -4,10 +4,9 @@ import usersRouter from './users.routes';
 import sessionsRouter from './sessions.routes';
 
 const routes = Router();
-// usado o middleware para setar a rota d appointments
 
-routes.use('/appointments', appointmentsRouter);
 routes.use('/users', usersRouter);
 routes.use('/sessions', sessionsRouter);
+routes.use('/appointments', appointmentsRouter);
 
 export default routes;

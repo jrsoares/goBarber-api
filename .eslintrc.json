@@ -20,6 +20,7 @@
     "@typescript-eslint/no-unused-vars": ["error", {
       "argsIgnorePattern": "_"
     }],
+    "@typescript-eslint/interface-name-prefix": ["error", {"prefixWithI": "always"}],
     "class-methods-use-this": "off",
     "import/extensions":[
       "error",

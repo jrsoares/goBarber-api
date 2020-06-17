@@ -5,13 +5,13 @@ import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import User from '../infra/typeorm/entities/Users';
 
-interface Request {
+interface IRequest {
   user_id: string;
   avatarFilename: string;
 }
 
 class UpadateUserAvatarService {
-  public async execute({ user_id, avatarFilename }: Request): Promise<User> {
+  public async execute({ user_id, avatarFilename }: IRequest): Promise<User> {
     const usersRepository = getRepository(User);
 
     const user = await usersRepository.findOne(user_id);

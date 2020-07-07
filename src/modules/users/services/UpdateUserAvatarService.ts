@@ -1,8 +1,6 @@
-import path from 'path';
-import fs from 'fs';
-import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
+import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
 
@@ -12,10 +10,13 @@ interface IRequest {
 }
 
 @injectable()
-class UpadateUserAvatarService {
+class UpdateUserAvatarService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('StorageProvider')
+    private storageProvider: IStorageProvider,
   ) {}
 
   public async execute({ user_id, avatarFilename }: IRequest): Promise<User> {
@@ -26,17 +27,12 @@ class UpadateUserAvatarService {
     }
     // Deletar o avatar
     if (user.avatar) {
-      // tras o caminho do imagem do avatar
-      const userAvatarFilePath = path.join(uploadConfig.directory, user.avatar);
-      // tras o status do arquivo se ele existir
-      const userAvatarFileExists = await fs.promises.stat(userAvatarFilePath);
-      if (userAvatarFileExists) {
-        // exclui o arquivo
-        await fs.promises.unlink(userAvatarFilePath);
-      }
+      await this.storageProvider.deleteFile(user.avatar);
     }
+
+    const filename = await this.storageProvider.saveFile(avatarFilename);
     // sobrescreve o arquivo do avatar
-    user.avatar = avatarFilename;
+    user.avatar = filename;
     // atualiza o User, porque já tem um User instanciado com o id, senão ele cria um novo Users
     await this.usersRepository.save(user);
 
@@ -44,4 +40,4 @@ class UpadateUserAvatarService {
   }
 }
 
-export default UpadateUserAvatarService;
+export default UpdateUserAvatarService;

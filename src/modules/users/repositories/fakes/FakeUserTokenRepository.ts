@@ -1,5 +1,4 @@
 import IUserTokensRepository from '@modules/users/repositories/IUsersTokensRepository';
-
 import { uuid } from 'uuidv4';
 import UserToken from '../../infra/typeorm/entities/UserToken';
 

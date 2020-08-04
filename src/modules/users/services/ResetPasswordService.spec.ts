@@ -76,7 +76,7 @@ describe('ResetPasswordService', () => {
       const customDate = new Date();
       return customDate.setHours(customDate.getDate() + 3);
     });
-    await expect(
+    expect(
       resetPassword.execute({
         password: '123123',
         token,

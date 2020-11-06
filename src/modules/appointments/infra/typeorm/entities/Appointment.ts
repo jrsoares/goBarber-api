@@ -25,6 +25,16 @@ class Appointment {
   })
   provider: User;
 
+  @Column()
+  user_id: string;
+
+  // Relacionamento de muitos appointments para um user
+  @ManyToOne(() => User)
+  @JoinColumn({
+    name: 'user_id',
+  })
+  user: User;
+
   @Column('timestamp with time zone')
   date: Date;
 
